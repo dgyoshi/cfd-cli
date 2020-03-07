@@ -30,6 +30,7 @@ func init() {
 
 	for _, cmd := range [...]Command{
 		NewGetPubkeyFromPrivkeyCmd(),
+		NewGetExtkeypairFromSeedCmd(),
 	} {
 		cmd.Init()
 		commandMap[cmd.Command()] = cmd
