@@ -15,7 +15,7 @@ type Command interface {
 	Command() string
 	GetFlagSet() *flag.FlagSet
 	Init()
-	Do(context.Context, uintptr)
+	Do(context.Context)
 }
 
 var commandMap map[string]Command
@@ -64,16 +64,5 @@ func main() {
 
 	ctx := context.Background()
 
-	h, err := cfd.CfdGoCreateHandle()
-	if err != nil {
-		panic(err)
-	}
-	defer func() {
-		handlerErr := cfd.CfdGoFreeHandle(h)
-		if handlerErr != nil {
-			fmt.Println("failed to free cfd-go handle.", handlerErr)
-		}
-	}()
-
-	cmd.Do(ctx, h)
+	cmd.Do(ctx)
 }

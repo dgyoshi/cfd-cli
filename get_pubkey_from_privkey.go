@@ -47,14 +47,14 @@ func (cmd *GetPubkeyFromPrivkeyCmd) GetFlagSet() *flag.FlagSet {
 }
 
 // Do performs the command action.
-func (cmd *GetPubkeyFromPrivkeyCmd) Do(ctx context.Context, handle uintptr) {
+func (cmd *GetPubkeyFromPrivkeyCmd) Do(ctx context.Context) {
 
 	if *cmd.privkey == "" && *cmd.wif == "" {
 		fmt.Println("privkey or wif is required")
 		return
 	}
 
-	pubkey, err := cfd.CfdGoGetPubkeyFromPrivkey(handle, *cmd.privkey, *cmd.wif, *cmd.isCompress)
+	pubkey, err := cfd.CfdGoGetPubkeyFromPrivkey(*cmd.privkey, *cmd.wif, *cmd.isCompress)
 	if err != nil {
 		fmt.Println(err)
 	}

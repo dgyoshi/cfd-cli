@@ -44,7 +44,7 @@ func (cmd *GetExtkeypairFromSeedCmd) GetFlagSet() *flag.FlagSet {
 	return cmd.flagSet
 }
 
-func (cmd *GetExtkeypairFromSeedCmd) Do(ctx context.Context, handle uintptr) {
+func (cmd *GetExtkeypairFromSeedCmd) Do(ctx context.Context) {
 
 	if *cmd.seed == "" {
 		fmt.Println("seed is required")
@@ -53,21 +53,21 @@ func (cmd *GetExtkeypairFromSeedCmd) Do(ctx context.Context, handle uintptr) {
 
 	networkType := cfd.KCfdNetworkMainnet
 
-	xpriv, err := cfd.CfdGoCreateExtkeyFromSeed(handle, *cmd.seed, int(networkType), int(cfd.KCfdExtPrivkey))
+	xpriv, err := cfd.CfdGoCreateExtkeyFromSeed(*cmd.seed, int(networkType), int(cfd.KCfdExtPrivkey))
 	if err != nil {
 		fmt.Println(err)
 		return
 	}
 
 	if *cmd.path != "" {
-		xpriv, err = cfd.CfdGoCreateExtkeyFromParentPath(handle, xpriv, *cmd.path, int(networkType), int(cfd.KCfdExtPrivkey))
+		xpriv, err = cfd.CfdGoCreateExtkeyFromParentPath(xpriv, *cmd.path, int(networkType), int(cfd.KCfdExtPrivkey))
 		if err != nil {
 			fmt.Println(err)
 			return
 		}
 	}
 
-	xpub, err := cfd.CfdGoCreateExtPubkey(handle, xpriv, int(networkType))
+	xpub, err := cfd.CfdGoCreateExtPubkey(xpriv, int(networkType))
 	if err != nil {
 		fmt.Println(err)
 		return

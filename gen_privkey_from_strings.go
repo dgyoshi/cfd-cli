@@ -37,7 +37,7 @@ func (cmd *GenPrivkeyFromStringsCmd) GetFlagSet() *flag.FlagSet {
 	return cmd.flagSet
 }
 
-func (cmd *GenPrivkeyFromStringsCmd) Do(ctx context.Context, handle uintptr) {
+func (cmd *GenPrivkeyFromStringsCmd) Do(ctx context.Context) {
 	texts := strings.Split(*cmd.text, "|")
 	seed := ""
 	for i, w := range texts {
