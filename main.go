@@ -32,6 +32,9 @@ func init() {
 		NewGetPubkeyFromPrivkeyCmd(),
 		NewGetExtkeypairFromSeedCmd(),
 		NewGenPrivkeyFromStringsCmd(),
+		NewDecodeRawTransactionCmd(),
+		NewVerifySignTransactionCmd(),
+		NewEncodeDerFromSignatureCmd(),
 	} {
 		cmd.Init()
 		commandMap[cmd.Command()] = cmd
