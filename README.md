@@ -115,3 +115,8 @@ go run ./ addsigntransaction -file <filename> -elements -txid <txid> -vout <vout
 go run ./ signwithprivkey -tx <tx> -elements -txid <txid> -vout <vout> -privkey <privkey> -grindr -addresstype <addresstype> -sighashtype <sighashtype> -anyonecanpay
 go run ./ signwithprivkey -file <filename> -elements -txid <txid> -vout <vout> -extpriv <extpriv> -bip32path <bip32path> -sighashtype <sighashtype> -anyonecanpay
 ```
+
+### signwithprivkey
+```
+go run ./ getcommitment -asset <asset> -amount <amount> -assetblinder <assetBlinder> -blinder <blinder>
+```
