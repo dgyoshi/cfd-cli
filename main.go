@@ -47,6 +47,7 @@ func init() {
 		NewSignWithPrivkeyCmd(),
 		NewVerifySignatureCmd(),
 		NewGetCommitmentCmd(),
+		NewCreatePubkeyFromParentPathCmd(),
 	} {
 		cmd.Init()
 		commandMap[cmd.Command()] = cmd
