@@ -62,12 +62,17 @@ func (cmd *DecodeRawTransactionCmd) Do(ctx context.Context) {
 			fmt.Println("tx data file not found.")
 			return
 		}
-		bytes, err := ioutil.ReadFile(*cmd.txFilePath)
-		if err != nil {
-			fmt.Println(err)
-			return
+		txcache, err := ReadTransactionCache(*cmd.txFilePath)
+		if err == nil {
+			tx = txcache.Hex
+		} else {
+			bytes, err := ioutil.ReadFile(*cmd.txFilePath)
+			if err != nil {
+				fmt.Println(err)
+				return
+			}
+			tx = strings.TrimSpace(string(bytes))
 		}
-		tx = strings.TrimSpace(string(bytes))
 	}
 
 	if tx == "" {

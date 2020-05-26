@@ -2,6 +2,10 @@ github.com/cryptogarageinc/cfd-go v0.0.7 h1:OQrhU592JjJPI/VEqbVFpcFahMD+h7eqzdKH
 github.com/cryptogarageinc/cfd-go v0.0.7/go.mod h1:9RAl7Mwh83eFeAR42/wlr5hTHkSyZY0yRN0bkyE/xqk=
 github.com/cryptogarageinc/cfd-go v0.1.22 h1:uJlZv8FwsBcKw0r5LLqIxDUqfXxvrHPm6/dZTS4Kwh8=
 github.com/cryptogarageinc/cfd-go v0.1.22/go.mod h1:9RAl7Mwh83eFeAR42/wlr5hTHkSyZY0yRN0bkyE/xqk=
+github.com/cryptogarageinc/cfd-go v0.1.25 h1:SExJ0g9dOET6IouBl7RoIUwSvn0TNvYtYjaJ0PtDE9g=
+github.com/cryptogarageinc/cfd-go v0.1.25/go.mod h1:9RAl7Mwh83eFeAR42/wlr5hTHkSyZY0yRN0bkyE/xqk=
+github.com/cryptogarageinc/cfd-go v0.1.27 h1:XeHoylAkfTcGjUMG6+8LJR7rhRGQDtDUfMZIZ3AXHgI=
+github.com/cryptogarageinc/cfd-go v0.1.27/go.mod h1:9RAl7Mwh83eFeAR42/wlr5hTHkSyZY0yRN0bkyE/xqk=
 github.com/davecgh/go-spew v1.1.0 h1:ZDRjVQ15GmhC3fiQ8ni8+OwkZQO4DARzQgrnXU1Liz8=
 github.com/davecgh/go-spew v1.1.0/go.mod h1:J7Y8YcW2NihsgmVo/mv3lAwl/skON4iLHjSsI+c5H38=
 github.com/pmezard/go-difflib v1.0.0 h1:4DBwDE0NGyQoBHbLQYPwSUPoCMWR5BEzIk/f1lZbAQM=

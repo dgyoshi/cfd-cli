@@ -35,6 +35,18 @@ func init() {
 		NewDecodeRawTransactionCmd(),
 		NewVerifySignTransactionCmd(),
 		NewEncodeDerFromSignatureCmd(),
+		NewInitializeTransactionCmd(),
+		NewAppendTxInCmd(),
+		NewAppendTxOutCmd(),
+		NewSetRawReissueAssetCmd(),
+		NewBlindRawTransactionCmd(),
+		NewEstimateFeeCmd(),
+		NewCreateSignatureHashCmd(),
+		NewGetSignatureCmd(),
+		NewAddSignTransactionCmd(),
+		NewSignWithPrivkeyCmd(),
+		NewVerifySignatureCmd(),
+		NewGetCommitmentCmd(),
 	} {
 		cmd.Init()
 		commandMap[cmd.Command()] = cmd

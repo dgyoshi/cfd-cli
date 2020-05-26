@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"io/ioutil"
 	"os"
+	"strings"
 
 	cfd "github.com/cryptogarageinc/cfd-go"
 )
@@ -21,6 +22,7 @@ type VerifySignTransactionCmd struct {
 	vout       *uint
 	address    *string
 	addrType   *string
+	descriptor *string
 	amount     *uint64
 	commitment *string
 }
@@ -49,7 +51,8 @@ func (cmd *VerifySignTransactionCmd) Init() {
 	cmd.isElements = cmd.flagSet.Bool("elements", false, "elements mode")
 	cmd.txid = cmd.flagSet.String("txid", "", "txin's txid")
 	cmd.vout = cmd.flagSet.Uint("vout", 0, "txin's vout")
-	cmd.address = cmd.flagSet.String("address", "", "txin's utxo address")
+	cmd.descriptor = cmd.flagSet.String("descriptor", "", "txin's utxo output descriptor")
+	cmd.address = cmd.flagSet.String("address", "", "txin's utxo address (not exist descriptor)")
 	cmd.addrType = cmd.flagSet.String("addresstype", "", "txin's utxo addressType (p2wpkh, p2wsh, p2sh-p2wpkh, p2sh-p2wsh, p2pkh, p2sh)")
 	cmd.amount = cmd.flagSet.Uint64("amount", 0, "txin's utxo amount")
 	cmd.commitment = cmd.flagSet.String("commitment", "", "txin's utxo amount commitment (elements mode only)")
@@ -69,12 +72,17 @@ func (cmd *VerifySignTransactionCmd) Do(ctx context.Context) {
 			fmt.Println("tx data file not found.")
 			return
 		}
-		bytes, err := ioutil.ReadFile(*cmd.txFilePath)
-		if err != nil {
-			fmt.Println(err)
-			return
+		txcache, err := ReadTransactionCache(*cmd.txFilePath)
+		if err == nil {
+			tx = txcache.Hex
+		} else {
+			bytes, err := ioutil.ReadFile(*cmd.txFilePath)
+			if err != nil {
+				fmt.Println(err)
+				return
+			}
+			tx = strings.TrimSpace(string(bytes))
 		}
-		tx = string(bytes)
 	}
 
 	if tx == "" {
@@ -86,31 +94,53 @@ func (cmd *VerifySignTransactionCmd) Do(ctx context.Context) {
 	if *cmd.isElements {
 		netType = int(cfd.KCfdNetworkLiquidv1)
 	}
-	addrType := int(cfd.KCfdP2wpkhAddress)
-	switch *cmd.addrType {
-	case "p2pkh":
-		addrType = int(cfd.KCfdP2pkhAddress)
-	case "p2sh":
-		addrType = int(cfd.KCfdP2shAddress)
-	case "p2sh-p2wpkh":
-		addrType = int(cfd.KCfdP2shP2wpkhAddress)
-	case "p2sh-p2wsh":
-		addrType = int(cfd.KCfdP2shP2wshAddress)
-	case "p2wpkh":
-		addrType = int(cfd.KCfdP2wpkhAddress)
-	case "p2wsh":
-		addrType = int(cfd.KCfdP2wshAddress)
-	default:
-		fmt.Printf("addresstype %s is unknown type.", *cmd.addrType)
-		return
+
+	addrType := -1
+	address := *cmd.address
+	if len(*cmd.descriptor) > 0 {
+		_, _, tempHashType, tempAddr, err := ParseDescriptor(*cmd.descriptor, netType)
+		if err != nil {
+			fmt.Println(err)
+			return
+		}
+		if len(*cmd.addrType) == 0 {
+			addrType = tempHashType
+		}
+		if len(address) == 0 {
+			address = tempAddr
+		}
+	}
+
+	if addrType == -1 {
+		switch *cmd.addrType {
+		case "p2pkh":
+			addrType = int(cfd.KCfdP2pkhAddress)
+		case "p2sh":
+			addrType = int(cfd.KCfdP2shAddress)
+		case "p2sh-p2wpkh":
+			addrType = int(cfd.KCfdP2shP2wpkhAddress)
+		case "p2sh-p2wsh":
+			addrType = int(cfd.KCfdP2shP2wshAddress)
+		case "p2wpkh":
+			addrType = int(cfd.KCfdP2wpkhAddress)
+		case "p2wsh":
+			addrType = int(cfd.KCfdP2wshAddress)
+		default:
+			fmt.Printf("addresstype %s is unknown type.", *cmd.addrType)
+			return
+		}
 	}
 
 	var isVerify bool
 	var err error
 	if *cmd.isElements {
-		isVerify, err = cfd.CfdGoVerifyConfidentialTxSign(tx, *cmd.txid, uint32(*cmd.vout), *cmd.address, addrType, "", int64(*cmd.amount), *cmd.commitment)
+		isVerify, err = cfd.CfdGoVerifyConfidentialTxSign(
+			tx, *cmd.txid, uint32(*cmd.vout), address,
+			addrType, "", int64(*cmd.amount), *cmd.commitment)
 	} else {
-		isVerify, err = cfd.CfdGoVerifyTxSign(netType, tx, *cmd.txid, uint32(*cmd.vout), *cmd.address, addrType, "", int64(*cmd.amount), *cmd.commitment)
+		isVerify, err = cfd.CfdGoVerifyTxSign(netType, tx,
+			*cmd.txid, uint32(*cmd.vout), address, addrType,
+			"", int64(*cmd.amount), *cmd.commitment)
 	}
 	if err != nil {
 		fmt.Println(err)
