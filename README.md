@@ -116,7 +116,12 @@ go run ./ signwithprivkey -tx <tx> -elements -txid <txid> -vout <vout> -privkey 
 go run ./ signwithprivkey -file <filename> -elements -txid <txid> -vout <vout> -extpriv <extpriv> -bip32path <bip32path> -sighashtype <sighashtype> -anyonecanpay
 ```
 
-### signwithprivkey
+### getcommitment
 ```
 go run ./ getcommitment -asset <asset> -amount <amount> -assetblinder <assetBlinder> -blinder <blinder>
+```
+
+### parsedescriptor
+```
+go run ./ parsedescriptor -network <network> -childnum <childnumber> -descriptor <outputDescriptor>
 ```
