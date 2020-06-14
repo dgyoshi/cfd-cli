@@ -49,6 +49,7 @@ func init() {
 		NewGetCommitmentCmd(),
 		NewCreatePubkeyFromParentPathCmd(),
 		NewParseDescriptorCmd(),
+		NewGetExtkeypairFromMnemonicCmd(),
 	} {
 		cmd.Init()
 		commandMap[cmd.Command()] = cmd

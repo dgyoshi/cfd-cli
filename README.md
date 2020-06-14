@@ -18,6 +18,12 @@ go run ./ getextkeypairfromseed -seed <seed> -network <network>
 go run ./ getextkeypairfromseed -seed <seed> -network <network> -path <bip32path>
 ```
 
+### getextkeypairfrommnemonic
+```
+go run ./ getextkeypairfrommnemonic -mnemonic <mnemonic> -network <network>
+go run ./ getextkeypairfrommnemonic -mnemonic <mnemonic> -network <network> -path <bip32paths>
+```
+
 ### decoderawtransaction
 ```
 go run ./ decoderawtransaction -tx <tx> -network <network>
