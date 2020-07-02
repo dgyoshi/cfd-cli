@@ -133,12 +133,13 @@ func (cmd *VerifySignTransactionCmd) Do(ctx context.Context) {
 
 	var isVerify bool
 	var err error
+	var reason string
 	if *cmd.isElements {
-		isVerify, err = cfd.CfdGoVerifyConfidentialTxSign(
+		isVerify, reason, err = cfd.CfdGoVerifyConfidentialTxSignReason(
 			tx, *cmd.txid, uint32(*cmd.vout), address,
 			addrType, "", int64(*cmd.amount), *cmd.commitment)
 	} else {
-		isVerify, err = cfd.CfdGoVerifyTxSign(netType, tx,
+		isVerify, reason, err = cfd.CfdGoVerifyTxSignReason(netType, tx,
 			*cmd.txid, uint32(*cmd.vout), address, addrType,
 			"", int64(*cmd.amount), *cmd.commitment)
 	}
@@ -151,6 +152,6 @@ func (cmd *VerifySignTransactionCmd) Do(ctx context.Context) {
 	if isVerify {
 		fmt.Println("verify: success.")
 	} else {
-		fmt.Println("verify: fail.")
+		fmt.Printf("verify: fail. reason: %s\n", reason)
 	}
 }
