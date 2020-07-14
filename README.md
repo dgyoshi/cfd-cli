@@ -18,6 +18,12 @@ go run ./ getextkeypairfromseed -seed <seed> -network <network>
 go run ./ getextkeypairfromseed -seed <seed> -network <network> -path <bip32path>
 ```
 
+### getextkeypairfrommnemonic
+```
+go run ./ getextkeypairfrommnemonic -mnemonic <mnemonic> -network <network>
+go run ./ getextkeypairfrommnemonic -mnemonic <mnemonic> -network <network> -path <bip32paths>
+```
+
 ### decoderawtransaction
 ```
 go run ./ decoderawtransaction -tx <tx> -network <network>
@@ -116,7 +122,12 @@ go run ./ signwithprivkey -tx <tx> -elements -txid <txid> -vout <vout> -privkey 
 go run ./ signwithprivkey -file <filename> -elements -txid <txid> -vout <vout> -extpriv <extpriv> -bip32path <bip32path> -sighashtype <sighashtype> -anyonecanpay
 ```
 
-### signwithprivkey
+### getcommitment
 ```
 go run ./ getcommitment -asset <asset> -amount <amount> -assetblinder <assetBlinder> -blinder <blinder>
+```
+
+### parsedescriptor
+```
+go run ./ parsedescriptor -network <network> -childnum <childnumber> -descriptor <outputDescriptor>
 ```
