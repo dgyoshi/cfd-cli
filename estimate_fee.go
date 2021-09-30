@@ -96,14 +96,12 @@ func (cmd *EstimateFeeCmd) Do(ctx context.Context) {
 				IsBlindIssuance:   false,
 				IsPegin:           false,
 				PeginBtcTxSize:    0,
-				FedpegScript:      "",
 				ScriptSigTemplate: utxo.ScriptsigTemplate,
 			},
 			IsIssuance:      false,
 			IsBlindIssuance: false,
 			IsPegin:         false,
 			PeginBtcTxSize:  0,
-			FedpegScript:    "",
 		}
 		txinList = append(txinList, feeInput)
 	}
