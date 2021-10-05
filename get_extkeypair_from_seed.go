@@ -36,7 +36,7 @@ func (cmd *GetExtkeypairFromSeedCmd) Init() {
 	cmd.cmd = "getextkeypairfromseed"
 	cmd.flagSet = flag.NewFlagSet(cmd.cmd, flag.ExitOnError)
 	cmd.seed = cmd.flagSet.String("seed", "", "seed in hex format")
-	cmd.networkType = cmd.flagSet.String("network", "", "mainnet | testnet | regtest")
+	cmd.networkType = cmd.flagSet.String("network", "", "mainnet | testnet | regtest | liquid | elementsregtest")
 	cmd.path = cmd.flagSet.String("path", "", "key path. i.e. m/44h/0h/0h/0/0")
 }
 
@@ -52,6 +52,14 @@ func (cmd *GetExtkeypairFromSeedCmd) Do(ctx context.Context) {
 	}
 
 	networkType := cfd.KCfdNetworkMainnet
+	if cmd.networkType != nil && len(*cmd.networkType) > 0 {
+		switch *cmd.networkType {
+		case "testnet":
+			networkType = cfd.KCfdNetworkTestnet
+		case "regtest":
+			networkType = cfd.KCfdNetworkRegtest
+		}
+	}
 
 	xpriv, err := cfd.CfdGoCreateExtkeyFromSeed(*cmd.seed, int(networkType), int(cfd.KCfdExtPrivkey))
 	if err != nil {
